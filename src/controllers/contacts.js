@@ -1,8 +1,7 @@
 import { createContact, deleteContact, getAllContacts, getContactById, updateContact } from "../services/contacts.js"
 import createHttpError from 'http-errors';
 
-export const getContactsController = async (req, res, next) => {
-  try {
+export const getContactsController = async (req, res) => {
     const contacts = await getAllContacts()
 
     res.json({
@@ -10,10 +9,6 @@ export const getContactsController = async (req, res, next) => {
       message: 'Successfully found contacts!',
       data: contacts
     })
-  } catch (error) {
-    next(error)
-  }
-  
 }
 
 export const getContactByIdController = async (req, res) => {
@@ -41,24 +36,22 @@ export const createContactController = async (req, res) => {
   })
 }
 
-export const deleteContactController = async (req, res, next) => {
+export const deleteContactController = async (req, res) => {
   const {contactId} = req.params
   const contact = await deleteContact(contactId)
 
   if (!contact) {
-    next(createHttpError(404, 'Contact not found'))
-    return
+    throw createHttpError(404, 'Contact not found')
   }
   res.status(204).send()
 }
 
-export const upsertContactController = async (req, res, next) => {
+export const upsertContactController = async (req, res) => {
   const {contactId} = req.params;
   const result  = await updateContact(contactId, req.body, {upsert: true})
 
-  if (!result) {
-    next(createHttpError(404, 'Contact not found'))
-    return
+  if(!result) {
+    throw createHttpError(404, 'Contact not found')
   }
 
   const status = result.isNew ? 201:200;
@@ -69,13 +62,12 @@ export const upsertContactController = async (req, res, next) => {
   })
 }
 
-export const patchContactController = async (req, res, next) => {
+export const patchContactController = async (req, res) => {
   const {contactId} = req.params
   const result = await updateContact(contactId, req.body)
 
-  if (!result) {
-    next(createHttpError(404, 'Contact not found'))
-    return
+  if(!result) {
+    throw createHttpError(404, 'Contact not found')
   }
 
   res.json({

@@ -23,11 +23,11 @@ const contactsSchema = new Schema(
       require: true,
       default: "personal"
     },
-  },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+    },
+    {
+      timestamps: true,
+      versionKey: false
+    }
 );
 
 export const Contact = model('Contact', contactsSchema);
