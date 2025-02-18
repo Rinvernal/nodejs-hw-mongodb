@@ -1,5 +1,5 @@
-import { query } from "express";
-import { SORT_ORDER } from "../constants"
+
+import { SORT_ORDER } from "../constants/index.js";
 
 
 const parseSortOther = (sortOrder) => {
@@ -32,7 +32,7 @@ export const parseSortParams = (query) => {
   const parsedSortBy = parseSortBy(sortBy)
 
   return{
-    sortOrder: parseSortOther,
-    sortBy: parseSortBy
+    sortOrder: parsedSortOrder,
+    sortBy: parsedSortBy,
   }
 }
