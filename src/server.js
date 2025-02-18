@@ -6,6 +6,7 @@ import { getEnvVar } from './utils/getEnvVar.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import dotenv from "dotenv";
+import { createContactSchema } from './validation/contacts.js';
 
 dotenv.config();
 const PORT = Number(getEnvVar('PORT', '3000'));
@@ -36,4 +37,17 @@ export const setupServer = () => {
   app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`)
   })
+
+  app.post(
+    '/contacts',
+    async (req, res, next) => {
+      try {
+        await createContactSchema.validateAsync(req.body, {
+          abortEarly: false
+        })
+      } catch (validationError) {
+        next(validationError)
+      }
+    }
+  )
 };
