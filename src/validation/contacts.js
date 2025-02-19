@@ -8,7 +8,7 @@ export const createContactSchema = Joi.object({
   onDuty: Joi.boolean(),
 }) 
 
-export const updateContactShema = Joi.object({
+export const updateContactSchema = Joi.object({
   name: Joi.string().min(3).max(30),
   email: Joi.string().email(),
   age: Joi.number().integer().min(6).max(16),
