@@ -12,7 +12,7 @@ router.get('/contacts/:contactId', isValidId, ctrlWrapper(getContactByIdControll
 router.delete('/contacts/:contactId', isValidId, ctrlWrapper(deleteContactController))
 router.patch('/contacts/:contactId',isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController))
 router.post(
-  '/',
+  '/contacts',
   validateBody(createContactSchema),
   ctrlWrapper(createContactController)
 )
