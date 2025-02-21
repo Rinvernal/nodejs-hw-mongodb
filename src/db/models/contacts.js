@@ -23,7 +23,7 @@ const contactsSchema = new Schema(
       require: true,
       default: "personal"
     },
-    parentId: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: 'users'
     }
