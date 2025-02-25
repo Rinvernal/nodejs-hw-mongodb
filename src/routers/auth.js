@@ -1,30 +1,43 @@
 import { Router } from "express";
 import { validateBody } from "../middlewares/validateBody.js";
-import { loginUserSchema, registerUserSchema } from "../validation/auth.js";
+import { loginUserSchema, registerUserSchema, requestResetEmailSchema, resetPasswordSchema } from "../validation/auth.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
-import { loginUserController, logoutUserController, refreshUserSessionController, registerUserController } from "../controllers/auth.js";
-import { authenticate } from "../middlewares/authenticate.js";
-import { getContactsController } from "../controllers/contacts.js";
+import { loginUserController, logoutUserController, refreshUserSessionController, registerUserController, requestResetEmailController, resetPasswordController } from "../controllers/auth.js";
+
 
 const router = Router();
+
+router.get('/', (req, res) => {
+  res.json({
+    message: 'auth router',
+  });
+});
 
 router.post(
   '/register',
   validateBody(registerUserSchema),
-  ctrlWrapper(registerUserController)
-)
+  ctrlWrapper(registerUserController),
+);
 
 router.post(
   '/login',
   validateBody(loginUserSchema),
-  ctrlWrapper(loginUserController)
-)
+  ctrlWrapper(loginUserController),
+);
 
 router.post('/logout', ctrlWrapper(logoutUserController));
-
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
-router.use(authenticate);
+router.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
 
-router.get('/', ctrlWrapper(getContactsController));
-export default router
+router.post(
+  '/reset-pwd',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
+);
+
+export default router;
