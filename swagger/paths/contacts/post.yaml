@@ -24,8 +24,8 @@ requestBody:
           email:
             description: "Contact's email"
             type: string
-          isFavorite:
-            description: "Contact's in the favorite list"
+          isFavourite:
+            description: "Contact's in the favourite list"
             type: boolean
           contactType:
             description: "Contact's number type"
